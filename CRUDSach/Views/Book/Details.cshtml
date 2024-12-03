@@ -1,0 +1,44 @@
+﻿@model Book
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Chi Tiết Sách</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="@Model.Image" alt="@Model.Title" class="img-fluid rounded" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary">Không có hình ảnh</div>
+                    }
+                </div>
+                <div class="col-md-8">
+                    <h3>@Model.Title</h3>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-3">Mã Sách</dt>
+                        <dd class="col-sm-9">@Model.Id</dd>
+
+                        <dt class="col-sm-3">Tác Giả</dt>
+                        <dd class="col-sm-9">@Model.Author</dd>
+
+                        <dt class="col-sm-3">Giá Bán</dt>
+                        <dd class="col-sm-9">@Model.Price.ToString("N0") VNĐ</dd>
+
+                        <dt class="col-sm-3">Mô Tả</dt>
+                        <dd class="col-sm-9">@Model.Description</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Chỉnh Sửa</a>
+            <a asp-action="Index" class="btn btn-secondary">Quay Lại Danh Sách</a>
+        </div>
+    </div>
+</div>

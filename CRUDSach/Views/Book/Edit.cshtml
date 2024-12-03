@@ -1,0 +1,103 @@
+﻿@model BookViewModel
+
+<div class="container mt-4">
+    <h2>Chỉnh Sửa Sách</h2>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="Image" type="hidden" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Title">Tiêu Đề Sách</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Author">Tác Giả</label>
+                    <input asp-for="Author" class="form-control" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Price">Giá Bán</label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Mô Tả</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Đường Dẫn Hình Ảnh</label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="Nhập URL hình ảnh" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageFile">Hoặc Tải Hình Ảnh Mới Từ Máy</label>
+                    <div class="custom-file">
+                        <input asp-for="ImageFile" class="custom-file-input" />
+                        <label class="custom-file-label" for="ImageFile">Chọn hình ảnh mới</label>
+                    </div>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
+                    <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h4>Hình Ảnh Hiện Tại</h4>
+                @if (!string.IsNullOrEmpty(Model.Image))
+                {
+                    <img src="@Model.Image" alt="Hình sách" style="max-width: 300px; max-height: 300px;" />
+                }
+                else
+                {
+                    <p>Chưa có hình ảnh</p>
+                }
+
+                <div id="imagePreview" style="max-width: 300px; max-height: 300px;">
+                    <h4 class="mt-3">Xem Trước Hình Ảnh Mới</h4>
+                    <img id="urlPreview" src="" alt="Xem trước URL" style="max-width: 100%; display: none;" />
+                    <img id="filePreview" src="" alt="Xem trước file" style="max-width: 100%; display: none;" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            // Preview từ URL
+            $('#ImageUrl').on('input', function () {
+                var url = $(this).val();
+                if (url) {
+                    $('#urlPreview').attr('src', url).show();
+                    $('#filePreview').hide();
+                } else {
+                    $('#urlPreview').hide();
+                }
+            });
+
+            // Preview từ file
+            $('#ImageFile').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#filePreview').attr('src', e.target.result).show();
+                    $('#urlPreview').hide();
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+        });
+    </script>
+}
